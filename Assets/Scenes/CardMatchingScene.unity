@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 121.1, y: -36.6}
+  m_AnchoredPosition: {x: 121.1001, y: -36.599976}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &190016715
@@ -735,8 +735,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layout: 0
---- !u!4 &1488351149
-Transform:
+  faceSprites:
+  - {fileID: 912512215, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: 249139244, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: 110684360, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: -1808073318, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: -2055968306, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: 621350573, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: -2018313473, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: -531959924, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: 257876536, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: 1156587808, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: 425683976, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: -503412174, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: 1901517266, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: -948078646, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: 1254401029, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: 572345913, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  backSprite: {fileID: 7482667652216324306, guid: 4abbaa68d4bb6b0439b865f191d6c42d, type: 3}
+  gridLayoutGroup: {fileID: 1854368670}
+  cellPadding: {x: 8, y: 8}
+--- !u!224 &1488351149
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -750,6 +770,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1563048896
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,6 +806,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 5372630934863862311, guid: 7e8c556804734b341adbc933f33e2e33, type: 3}
   boardParent: {fileID: 1854368669}
+  matchScore: 100
+  mismatchFlipBackDelay: 0.6
+  bonusCardPoints: 50
 --- !u!4 &1563048898
 Transform:
   m_ObjectHideFlags: 0

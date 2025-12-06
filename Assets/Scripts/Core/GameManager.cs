@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -6,24 +7,81 @@ public class GameManager : Singleton<GameManager>
     public GameObject cardPrefab;
     public Transform boardParent;
 
-    protected override void OnInit()
-    {
-        // initial setup (called once)
-    }
+    [Header("Gameplay Settings")]
+    public int matchScore = 100;
+    public float mismatchFlipBackDelay = 0.6f;
+
+    Card firstSelected;
+    Card secondSelected;
+    bool isComparing;
+
+    int currentScore;
+
+    protected override void OnInit() { }
 
     void Start()
     {
-        // For now, do a quick sanity test: ensure refs set
-        if (cardPrefab == null) Debug.LogWarning("cardPrefab not assigned in GameManager");
-        if (boardParent == null) Debug.LogWarning("boardParent not assigned in GameManager");
-        FindObjectOfType<BoardManager>()?.PopulateBoard(cardPrefab, boardParent);
-
+        var board = FindObjectOfType<BoardManager>();
+        board?.PopulateBoard(cardPrefab, boardParent);
     }
 
-    // Called by Card when clicked
+    public int bonusCardPoints = 50; // expose in inspector
+
     public void NotifyCardClicked(Card c)
     {
-        // stub: we'll add selection & match logic in later parts
-        Debug.Log($"Card clicked id:{c.cardId} matched:{c.isMatched}");
+        if (isComparing) return;
+        if (c.isMatched || c.isFaceUp) return;
+
+        c.SetFace(true);
+
+        // Bonus card immediate behavior
+        if (c.isBonusCard || c.cardId == -1)
+        {
+            // Award bonus points, keep it revealed and mark matched
+            currentScore += bonusCardPoints;
+            c.MarkMatched();
+            Debug.Log($"Bonus collected! +{bonusCardPoints} Score:{currentScore}");
+            // small early return, don't treat as pair
+            return;
+        }
+
+        if (firstSelected == null)
+        {
+            firstSelected = c;
+        }
+        else if (secondSelected == null)
+        {
+            secondSelected = c;
+            StartCoroutine(CompareSelected());
+        }
+    }
+
+
+    IEnumerator CompareSelected()
+    {
+        isComparing = true;
+
+        yield return new WaitForSeconds(0.15f);
+
+        if (firstSelected.cardId == secondSelected.cardId)
+        {
+            // MATCH
+            firstSelected.MarkMatched();
+            secondSelected.MarkMatched();
+            currentScore += matchScore;
+            Debug.Log("Match! Score: " + currentScore);
+        }
+        else
+        {
+            // MISMATCH
+            yield return new WaitForSeconds(mismatchFlipBackDelay);
+            firstSelected.SetFace(false);
+            secondSelected.SetFace(false);
+            Debug.Log("Mismatch!");
+        }
+
+        firstSelected = null;
+        secondSelected = null;
+        isComparing = false;
     }
 }
