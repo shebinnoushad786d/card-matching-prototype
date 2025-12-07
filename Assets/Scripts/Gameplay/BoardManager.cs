@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -67,35 +67,28 @@ public class BoardManager : MonoBehaviour
                 continue;
             }
 
-            int id = idList[i]; // -1 means bonus
-            card.cardId = id;
+            int id = idList[i]; // now id is the spriteIndex (0..faceSprites.Length-1) or -1 for bonus
+            card.cardId = id;               // <-- important: use sprite-based id
             card.isBonusCard = (id == -1);
 
-            // assign sprites if available
-            if (id >= 0 && faceSprites != null && faceSprites.Length > 0)
-            {
-                int spriteIndex = id % faceSprites.Length; // guarantee in-range
-                card.frontImage.sprite = faceSprites[spriteIndex];
-            }
-            else
-            {
-                // optional: set a special sprite for bonus or null for placeholder
-                card.frontImage.sprite = null;
-            }
+            if (id >= 0)
+                card.frontImage.sprite = faceSprites[id];
+
+
             card.backImage.sprite = backSprite;
 
-            // ensure visual state is face-down initially
             card.SetFace(false, instant: true);
 
-            // wire button safely using a local copy to avoid closure problems
+            // safe button wiring
             var btn = go.GetComponent<Button>();
             if (btn != null)
             {
                 btn.onClick.RemoveAllListeners();
-                Card localCard = card; // capture local
+                Card localCard = card;
                 btn.onClick.AddListener(() => localCard.OnClicked());
             }
         }
+
 
         // DEBUG: print distribution of ids
 #if UNITY_EDITOR
@@ -118,40 +111,53 @@ public class BoardManager : MonoBehaviour
 
         int pairs;
         if (slots % 2 == 0)
-        {
             pairs = slots / 2;
-            for (int p = 0; p < pairs; p++)
-            {
-                // create logical pair id (use p as logical id)
-                int logicalId = p;
-                ids.Add(logicalId);
-                ids.Add(logicalId);
-            }
-        }
         else
         {
-            // odd slot layout (3x3): (slots-1)/2 pairs + 1 bonus
             pairs = (slots - 1) / 2;
-            for (int p = 0; p < pairs; p++)
-            {
-                int logicalId = p;
-                ids.Add(logicalId);
-                ids.Add(logicalId);
-            }
-            ids.Add(-1); // bonus marker
             hasBonus = true;
         }
 
-        // Shuffle the id list
-        Shuffle(ids);
-
-        // Determine bonus index (if any)
-        if (hasBonus)
+        if (faceSprites == null || faceSprites.Length == 0)
         {
-            bonusIndex = ids.FindIndex(x => x == -1);
+            Debug.LogError("No face sprites assigned!");
+            return;
         }
 
-        // NOTE: logical ids (0..pairs-1) will be mapped to actual sprite indexes via modulo
+        int spriteCount = faceSprites.Length;
+
+        // ✅ STRICT UNIQUE-FIRST DISTRIBUTION
+        int spritePointer = 0;
+
+        for (int p = 0; p < pairs; p++)
+        {
+            int spriteIndex = spritePointer;
+
+            ids.Add(spriteIndex);
+            ids.Add(spriteIndex);
+
+            spritePointer++;
+
+            // Cycle only after all sprites are used once
+            if (spritePointer >= spriteCount)
+                spritePointer = 0;
+        }
+
+        // ✅ Bonus for odd grid (3x3)
+        if (hasBonus)
+            ids.Add(-1);
+
+        // ✅ Final safety check
+        if (ids.Count != slots)
+        {
+            Debug.LogError($"ID generation mismatch! Expected {slots} got {ids.Count}");
+        }
+
+        // ✅ Proper shuffle
+        Shuffle(ids);
+
+        if (hasBonus)
+            bonusIndex = ids.FindIndex(x => x == -1);
     }
 
     void Shuffle<T>(List<T> list)

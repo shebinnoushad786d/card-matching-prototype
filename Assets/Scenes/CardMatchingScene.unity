@@ -560,6 +560,54 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &680336704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 680336706}
+  - component: {fileID: 680336705}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &680336705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680336704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05f7bb8338b83145af2e528fb6f820b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flipSfx: {fileID: 0}
+  matchSfx: {fileID: 0}
+  mismatchSfx: {fileID: 0}
+  winSfx: {fileID: 0}
+--- !u!4 &680336706
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680336704}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1223088624
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,7 +782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a4baea76ba39f42a24f3e154b73e28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layout: 0
+  layout: 1
   faceSprites:
   - {fileID: 912512215, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
   - {fileID: 249139244, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
@@ -806,8 +854,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 5372630934863862311, guid: 7e8c556804734b341adbc933f33e2e33, type: 3}
   boardParent: {fileID: 1854368669}
+  boardManager: {fileID: 1488351148}
   matchScore: 100
   mismatchFlipBackDelay: 0.6
+  scoreText: {fileID: 190016715}
+  currentMoves: 0
+  currentTime: 0
   bonusCardPoints: 50
 --- !u!4 &1563048898
 Transform:
@@ -858,8 +910,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 140.70093, y: 0}
-  m_SizeDelta: {x: 1638.5981, y: 1080}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1546.7305, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1854368670
 MonoBehaviour:
@@ -878,7 +930,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 100, y: 100}
