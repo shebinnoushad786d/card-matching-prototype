@@ -18,6 +18,7 @@ public class GameManager : Singleton<GameManager>
 
     public int currentMoves;
     public float currentTime;
+    public static bool inputLocked = false;
 
     Card firstSelected;
     Card secondSelected;
@@ -29,12 +30,7 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
-        SaveSystem.Clear(); // clear previous save
-
-
-        var board = FindObjectOfType<BoardManager>();
-        board?.PopulateBoard(cardPrefab, boardParent);
-
+        //SaveSystem.Clear(); // for testing, clear saves on start
         GameSaveData data = SaveSystem.Load();
 
         if (data == null)
@@ -59,6 +55,7 @@ public class GameManager : Singleton<GameManager>
         boardManager.ClearBoard(boardParent);
         boardManager.PopulateBoard(cardPrefab, boardParent);
         UpdateUI();
+        ShowPreview(1f);
 
         Debug.Log("New Game Started With Layout → " + boardManager.layout);
     }
@@ -75,17 +72,21 @@ public class GameManager : Singleton<GameManager>
 
         c.SetFace(true);
 
-        // Bonus card immediate behavior
         if (c.isBonusCard || c.cardId == -1)
         {
-            // Award bonus points, keep it revealed and mark matched
             currentScore += bonusCardPoints;
             UpdateUI();
+
+            c.isMatched = true;
             c.MarkMatched();
-            Debug.Log($"Bonus collected! +{bonusCardPoints} Score:{currentScore}");
-            // small early return, don't treat as pair
+            c.SetFace(true, instant: true);
+
+            SaveGame();
+
+            CheckForWin();
             return;
         }
+
 
         if (firstSelected == null)
         {
@@ -144,24 +145,35 @@ public class GameManager : Singleton<GameManager>
 
     void CheckForWin()
     {
-        for (int i = 0; i < boardParent.childCount; i++)
+        int total = boardParent.childCount;
+        int matched = 0;
+
+        for (int i = 0; i < total; i++)
         {
             Card c = boardParent.GetChild(i).GetComponent<Card>();
-            if (!c.isMatched)
-                return; 
+
+            if (c.isBonusCard || c.cardId == -1)
+            {
+                matched++;
+                continue;
+            }
+
+            if (c.isMatched)
+                matched++;
         }
 
-        Debug.Log("GAME COMPLETED!");
-        AudioManager.Instance.PlayWin();
-        HandleGameComplete();
+
+        if (matched >= total)
+        {
+            HandleGameComplete();
+        }
     }
+
 
     void HandleGameComplete()
     {
-        // ✅ Clear save so old moves are NOT restored
         SaveSystem.Clear();
 
-        // ✅ Small delay for UX (optional)
         Invoke(nameof(RestartLevel), 1.0f);
     }
     public void SaveGame()
@@ -232,6 +244,29 @@ public class GameManager : Singleton<GameManager>
             default: return BoardManager.BoardLayout.FiveBySix;
         }
     }
+
+    public void ShowPreview(float previewTime = 1f)
+    {
+        StartCoroutine(PreviewRoutine(previewTime));
+    }
+
+    private IEnumerator PreviewRoutine(float previewTime)
+    {
+        inputLocked = true;
+
+        Card[] allCards = FindObjectsOfType<Card>();
+
+        foreach (var card in allCards)
+            card.SetFace(true, instant: true);
+
+        yield return new WaitForSeconds(previewTime);
+
+        foreach (var card in allCards)
+            card.SetFace(false, instant: true);
+
+        inputLocked = false;
+    }
+
 
     void UpdateUI()
     {

@@ -589,10 +589,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05f7bb8338b83145af2e528fb6f820b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flipSfx: {fileID: 0}
-  matchSfx: {fileID: 0}
-  mismatchSfx: {fileID: 0}
-  winSfx: {fileID: 0}
+  flipSfx: {fileID: 8300000, guid: 065074652319fef4ba82cfd9d7ac4a79, type: 3}
+  matchSfx: {fileID: 8300000, guid: e2a6b93a1f1185c4face95ae8263dc13, type: 3}
+  mismatchSfx: {fileID: 8300000, guid: a975ecac6abe0834683bb83626a64333, type: 3}
+  winSfx: {fileID: 8300000, guid: 8a8f4a75913ea6447a217bbceb128aa2, type: 3}
 --- !u!4 &680336706
 Transform:
   m_ObjectHideFlags: 0
@@ -792,14 +792,16 @@ MonoBehaviour:
   - {fileID: 621350573, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
   - {fileID: -2018313473, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
   - {fileID: -531959924, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
-  - {fileID: 257876536, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
-  - {fileID: 1156587808, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
-  - {fileID: 425683976, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
-  - {fileID: -503412174, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
-  - {fileID: 1901517266, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
-  - {fileID: -948078646, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
-  - {fileID: 1254401029, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
-  - {fileID: 572345913, guid: e86978b1c634e374eb0c8a137f64f68e, type: 3}
+  - {fileID: 777373373, guid: d73590c45632ef042bf73bcb4ea2b7af, type: 3}
+  - {fileID: 2027180658, guid: d73590c45632ef042bf73bcb4ea2b7af, type: 3}
+  - {fileID: 136169385, guid: d73590c45632ef042bf73bcb4ea2b7af, type: 3}
+  - {fileID: 1406976199, guid: d73590c45632ef042bf73bcb4ea2b7af, type: 3}
+  - {fileID: -1182905524, guid: d73590c45632ef042bf73bcb4ea2b7af, type: 3}
+  - {fileID: 596795433, guid: d73590c45632ef042bf73bcb4ea2b7af, type: 3}
+  - {fileID: -1002950468, guid: a666fa9791353c6458d1a00265573eda, type: 3}
+  - {fileID: 1024037507, guid: a666fa9791353c6458d1a00265573eda, type: 3}
+  - {fileID: 922734242, guid: a666fa9791353c6458d1a00265573eda, type: 3}
+  - {fileID: -269510649, guid: a666fa9791353c6458d1a00265573eda, type: 3}
   backSprite: {fileID: 7482667652216324306, guid: 4abbaa68d4bb6b0439b865f191d6c42d, type: 3}
   gridLayoutGroup: {fileID: 1854368670}
   cellPadding: {x: 8, y: 8}
@@ -910,8 +912,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1546.7305, y: 1080}
+  m_AnchoredPosition: {x: 0, y: 2.2932}
+  m_SizeDelta: {x: 1546.7305, y: 1005.897}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1854368670
 MonoBehaviour:

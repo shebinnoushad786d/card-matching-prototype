@@ -124,23 +124,19 @@ public class BoardManager : MonoBehaviour
             return;
         }
 
-        int spriteCount = faceSprites.Length;
+        List<int> availableSpriteIds = new List<int>();
 
-        // ✅ STRICT UNIQUE-FIRST DISTRIBUTION
-        int spritePointer = 0;
+        for (int i = 0; i < faceSprites.Length; i++)
+            availableSpriteIds.Add(i);
+
+        Shuffle(availableSpriteIds);
 
         for (int p = 0; p < pairs; p++)
         {
-            int spriteIndex = spritePointer;
+            int spriteIndex = availableSpriteIds[p % availableSpriteIds.Count];
 
             ids.Add(spriteIndex);
             ids.Add(spriteIndex);
-
-            spritePointer++;
-
-            // Cycle only after all sprites are used once
-            if (spritePointer >= spriteCount)
-                spritePointer = 0;
         }
 
         // ✅ Bonus for odd grid (3x3)
@@ -149,11 +145,9 @@ public class BoardManager : MonoBehaviour
 
         // ✅ Final safety check
         if (ids.Count != slots)
-        {
             Debug.LogError($"ID generation mismatch! Expected {slots} got {ids.Count}");
-        }
 
-        // ✅ Proper shuffle
+        // ✅ Shuffle final positions
         Shuffle(ids);
 
         if (hasBonus)

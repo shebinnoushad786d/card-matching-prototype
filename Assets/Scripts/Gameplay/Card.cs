@@ -22,6 +22,9 @@ public class Card : MonoBehaviour
     // Called by Button onClick or by BoardManager
     public void OnClicked()
     {
+        if (GameManager.inputLocked)
+            return;
+
         if (isMatched || isFaceUp || isAnimating) return;
         AudioManager.Instance.PlayFlip();
         GameManager.Instance.NotifyCardClicked(this);
